@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  namespace: ingress-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: liszto-node
+  template:
+    metadata:
+      labels:
+        component: liszto-node
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - node2
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: liszto-node
+          image: rechlinks/liszto-node:0.0.5
+          imagePullPolicy: Always
+          ports:
+           - containerPort: 5000
+          volumeMounts:
+            - name: nfs
+              mountPath: /home/liszto/LISZTO-BACKEND/data
+            - name: configurationfile
+              mountPath: /home/liszto/LISZTO-BACKEND/configurations/config/ipConfiguration.config.js
+              subPath: ipConfiguration.config.js
+            - name: configurationfile
+              mountPath: /home/liszto/LISZTO-BACKEND/configurations/config/liquidsoap.config.liq
+              subPath: liquidsoap.config.liq
+            - name: configurationfile
+              mountPath: /home/liszto/LISZTO-BACKEND/configurations/config/dbConfiguration.config.js
+              subPath: dbConfiguration.config.js
+          env:  
+            - name: USER_ID
+              value: "1000"
+            - name: GROUP_ID
+              value: "1000"
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: nfs
+        - name: configurationfile
+          configMap:
+            name: configmap-ip-liq
+

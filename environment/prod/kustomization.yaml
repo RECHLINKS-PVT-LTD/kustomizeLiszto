@@ -1,0 +1,28 @@
+bases:
+  - ../../base
+
+namespace: production
+
+labels:
+  - pairs:
+      env: production
+    includeSelectors: false
+    includeTemplates: false
+
+configMapGenerator:
+  - name: configmap-ip-liq
+    namespace: ingress-nginx
+    behavior: replace 
+    files:
+      - config/dbConfiguration.config.js
+      - config/ipConfiguration.config.js
+      - config/liquidsoap.config.liq
+
+images:
+  - name: rechlinks/liszto-node
+    newTag: 0.0.5
+
+replicas:
+  - name: node-deployment
+    count: 2
+

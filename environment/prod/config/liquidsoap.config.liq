@@ -1,0 +1,6 @@
+backup = playlist(mode="normal", argv(3), reload_mode="watch")
+security = single ("/home/liszto/LISZTO-BACKEND/configurations/config/security.mp3")
+radio = playlist.once(random = false, argv(2), reload_mode="watch")
+radio = fallback(track_sensitive = false, [radio, backup])
+radio = fallback(track_sensitive = false, [radio, security])
+output.icecast(%mp3,host="icecast.rechlinks.com",port=8000,password="connect",mount=argv(1),radio)

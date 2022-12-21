@@ -1,0 +1,12 @@
+resources:
+  - nfs-pv.yaml
+  - nfs-pvc.yaml
+  - redis.yaml
+  - kafka.yaml
+  - icecast-service.yaml
+  - icecast-deployment.yaml
+  - lisztoapp-configmap.yaml
+  - node-service.yaml
+  - node-deployment.yaml
+  - ingress-controller.yaml
+  - ingress-nginx.yaml

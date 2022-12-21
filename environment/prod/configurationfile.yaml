@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-ip-liq
+  namespace: ingress-nginx
+data: 
+  dbConfiguration.config.js: |
+    module.exports = {
+      'secret': 'restapisecret',
+      'database': 'mongodb://10.110.0.141:27017,10.110.0.140:27017/lisztodata?replicaSet=rs0'
+    };
+  ipConfiguration.config.js: |
+    module.exports = {
+      publicIp: "73.151.133.9",
+      applicationUrl: "http://127.0.0.1:5000/",
+      applicationPort: "5000",
+
+      filesServerUrl: "http://127.0.0.1:5000/",
+
+      icecastIp: "icecast.rechlinks.com",
+      icecastUrl: "http://icecast.rechlinks.com:8000/",
+      icecastPort: "8000",
+      icecastUserName: "admin",
+      icecastPassword: "connect",
+
+      kafkaHost: "kafka-service:9092",
+
+      redisHost: "redis-service",
+      redisPort: "6379",
+
+      float_long_url: "http://73.151.133.9:1002/#/user/wall/float;id=",
+    };
+  liquidsoap.config.liq: |
+    backup = playlist(mode="normal", argv(3), reload_mode="watch")
+    security = single ("/home/liszto/LISZTO-BACKEND/configurations/config/security.mp3")
+    radio = playlist.once(random = false, argv(2), reload_mode="watch")
+    radio = fallback(track_sensitive = false, [radio, backup])
+    radio = fallback(track_sensitive = false, [radio, security])
+    output.icecast(%mp3,host="icecast.rechlinks.com",port=8000,password="connect",mount=argv(1),radio)
