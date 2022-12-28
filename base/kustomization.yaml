@@ -1,6 +1,9 @@
 resources:
+  - dockerhub-secret.yaml
+  - prod-namespace.yaml
   - nfs-pv.yaml
   - nfs-pvc.yaml
+  - redis-cm.yaml
   - redis.yaml
   - kafka.yaml
   - icecast-service.yaml
