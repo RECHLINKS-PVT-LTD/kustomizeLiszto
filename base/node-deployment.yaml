@@ -2,32 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-deployment
-  namespace: ingress-nginx
+  labels:
+    app: node-deployment
+  namespace: production
 spec:
   replicas: 2
   selector:
     matchLabels:
-      component: liszto-node
+      app: node-deployment
   template:
     metadata:
       labels:
-        component: liszto-node
+        app: node-deployment
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: node
-                    operator: In
-                    values:
-                      - node2
       imagePullSecrets:
         - name: regcred
       containers:
-        - name: liszto-node
-          image: rechlinks/liszto-node:0.0.5
+        - name: node-deployment
+          image: rechlinks/liszto-node:0.0.3
           imagePullPolicy: Always
           ports:
            - containerPort: 5000
@@ -55,4 +47,3 @@ spec:
         - name: configurationfile
           configMap:
             name: configmap-ip-liq
-

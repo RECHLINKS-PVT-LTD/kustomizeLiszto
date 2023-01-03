@@ -1,0 +1,31 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: node-canary
+  namespace: production
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: node-deployment
+  autoscalerRef:
+    apiVersion: autoscaling/v1
+    kind: HorizontalPodAutoscaler
+    name: node-hpa
+  progressDeadlineSeconds: 60
+  service:
+    port: 5000
+  analysis:
+    interval: 30s
+    threshold: 3
+    maxWeight: 60
+    stepWeight: 20
+    metrics:
+    - name: request-success-rate
+      thresholdRange:
+        min: 99
+      interval: 1m
+    - name: request-duration
+      thresholdRange:
+        max: 250
+      interval: 30s

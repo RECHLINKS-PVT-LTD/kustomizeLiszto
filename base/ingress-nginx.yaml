@@ -2,14 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-nginx
-  namespace: ingress-nginx
+  labels:
+    app: ingress-nginx
+  namespace: production
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 500m
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header l5d-dst-override node-service.production.svc.cluster.local:5000;
+      proxy_hide_header l5d-remote-ip;
+      proxy_hide_header l5d-server-id;
 spec:
   ingressClassName: nginx
   rules:
-    - host: nodek.liszto.app
+    - host: linkerd.rechlinks.com
       http:
         paths:
         - pathType: Prefix
@@ -19,13 +23,3 @@ spec:
               name: node-service
               port:
                 number: 5000
-    - host: icecastk.liszto.app
-      http:
-        paths:
-        - pathType: Prefix
-          path: "/"
-          backend:
-            service:
-              name: icecast-service
-              port:
-                number: 8000

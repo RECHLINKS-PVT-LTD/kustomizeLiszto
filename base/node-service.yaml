@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: node-service
-  namespace: ingress-nginx
+  namespace: production
 spec:
   type: ClusterIP
   selector:
-    component: liszto-node
+    app: node-deployment
   ports:
     - port: 5000
       targetPort: 5000

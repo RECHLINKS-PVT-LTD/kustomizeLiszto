@@ -7,8 +7,8 @@ data:
   dbConfiguration.config.js: |
     module.exports = {
       'secret': 'restapisecret',
-      'database': 'mongodb://10.110.0.141:27017,10.110.0.140:27017/lisztodata?replicaSet=rs0'
-    };
+      'database': 'mongodb://10.110.0.16:27017/lisztodata?ext.ssh.server=10.110.0.16:22&ext.ssh.username=liszto&ext.ssh.password=liszto'
+     };
   ipConfiguration.config.js: |
     module.exports = {
       publicIp: "73.151.133.9",
