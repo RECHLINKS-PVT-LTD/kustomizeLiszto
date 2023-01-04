@@ -12,7 +12,7 @@ labels:
 images:
   - name: rechlinks/liszto-node
     newName: rechlinks/liszto-node
-    newTag: 0.0.3
+    newTag: 0.0.6
 
 replicas:
   - name: node-deployment
