@@ -6,20 +6,29 @@ metadata:
     app: node-deployment
   namespace: production
 spec:
-  replicas: 2
+  minReadySeconds: 5
+  revisionHistoryLimit: 5
+  progressDeadlineSeconds: 60
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: node-deployment
+  replicas: 2
   template:
     metadata:
       labels:
         app: node-deployment
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       imagePullSecrets:
         - name: regcred
       containers:
         - name: node-deployment
-          image: rechlinks/liszto-node:0.0.3
+          image: rechlinks/liszto-node:0.0.6
           imagePullPolicy: Always
           ports:
            - containerPort: 5000

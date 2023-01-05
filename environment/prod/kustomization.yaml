@@ -3,11 +3,8 @@ bases:
 
 namespace: production
 
-labels:
-  - pairs:
-      env: production
-    includeSelectors: false
-    includeTemplates: false
+commonAnnotations:
+  linkerd.io/inject: enabled  
 
 images:
   - name: rechlinks/liszto-node

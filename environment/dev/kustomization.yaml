@@ -1,2 +1,17 @@
 bases:
   - ../../base
+
+namespace: development
+
+commonAnnotations:
+  linkerd.io/inject: enabled  
+
+images:
+  - name: rechlinks/liszto-node
+    newName: rechlinks/liszto-node
+    newTag: 0.0.3
+
+replicas:
+  - name: node-deployment
+    count: 2
+

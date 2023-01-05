@@ -3,11 +3,13 @@ resources:
   - nfs-pv.yaml
   - nfs-pvc.yaml
   - redis-cm.yaml
-  - redis.yaml
-  - kafka.yaml
+  - redis-deployment.yaml
+  - kafka-deployment.yaml
   - icecast-service.yaml
   - icecast-deployment.yaml
   - lisztoapp-configmap.yaml
-  - node-service.yaml
   - node-deployment.yaml
+  - node-service.yaml
   - node-hpa.yaml
+  - node-ingress.yaml
+  - node-canary.yaml

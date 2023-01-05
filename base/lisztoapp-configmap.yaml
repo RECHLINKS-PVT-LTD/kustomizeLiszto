@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: configmap-ip-liq
-  namespace: ingress-nginx
+  namespace: development
 data: 
   dbConfiguration.config.js: |
     module.exports = {

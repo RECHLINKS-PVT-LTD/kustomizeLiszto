@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: icecast-deployment
-  namespace: ingress-nginx
+  namespace: development
 spec:
   replicas: 1
   selector:
