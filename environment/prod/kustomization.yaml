@@ -9,7 +9,7 @@ commonAnnotations:
 images:
   - name: rechlinks/liszto-node
     newName: rechlinks/liszto-node
-    newTag: 0.0.6
+    newTag: 0.0.7
 
 replicas:
   - name: node-deployment
