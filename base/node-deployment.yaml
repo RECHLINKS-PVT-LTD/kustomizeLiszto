@@ -28,7 +28,7 @@ spec:
         - name: regcred
       containers:
         - name: node-deployment
-          image: rechlinks/liszto-node:0.0.6
+          image: rechlinks/liszto-node:0.0.7
           imagePullPolicy: Always
           ports:
            - containerPort: 5000
@@ -49,6 +49,30 @@ spec:
               value: "1000"
             - name: GROUP_ID
               value: "1000"
+          startupProbe:
+            httpGet:
+              path: /
+              port: 5000
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 4
+            failureThreshold: 2
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 4
+            failureThreshold: 6
+            successThreshold: 1
       volumes:
         - name: nfs
           persistentVolumeClaim:
