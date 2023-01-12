@@ -16,7 +16,7 @@ spec:
   selector:
     matchLabels:
       app: node-deployment
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:

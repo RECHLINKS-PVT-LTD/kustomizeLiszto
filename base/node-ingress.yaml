@@ -6,16 +6,12 @@ metadata:
   labels:
     app: node-deployment
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: 500m
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "INGRESSCOOKIE"
+    nginx.ingress.kubernetes.io/affinity: "client_ip"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
     nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
-    nginx.ingress.kubernetes.io/affinity-canary-behavior: "sticky"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:5000;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
 spec:
   ingressClassName: nginx
   rules:
@@ -29,13 +25,3 @@ spec:
               name: node-deployment
               port:
                 number: 5000
-    - host: icecast.liszto.app
-      http:
-        paths:
-        - pathType: Prefix
-          path: "/"
-          backend:
-            service:
-              name: icecast-service
-              port:
-                number: 8000
