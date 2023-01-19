@@ -6,12 +6,8 @@ metadata:
   labels:
     app: node-deployment
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$host"
     nginx.ingress.kubernetes.io/proxy-body-size: 500m
-    nginx.ingress.kubernetes.io/affinity: "client_ip"
-    nginx.ingress.kubernetes.io/session-cookie-name: "route"
-    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
   ingressClassName: nginx
   rules:
